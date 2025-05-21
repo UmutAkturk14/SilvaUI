@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
@@ -21,6 +20,24 @@ export default defineConfig({
       "@store/*": path.resolve(__dirname, "src/store/*"),
       "@config/*": path.resolve(__dirname, "src/config/*"),
       "@helpers/*": path.resolve(__dirname, "src/helpers/*"),
+    },
+  },
+
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, "src/index.ts"),
+      name: "Silva",
+      fileName: (format) => `silva.${format}.js`,
+      formats: ["es", "cjs"],
+    },
+    rollupOptions: {
+      external: ["react", "react-dom"],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
     },
   },
 });
